@@ -14,7 +14,7 @@ LIMIT 10;
 
 
 -- =========================================
--- 2. Most In-demand Skills (basic text search)
+-- 2. Most In-demand Skills 
 -- =========================================
 SELECT 
     skills,
@@ -27,7 +27,7 @@ LIMIT 10;
 
 
 -- =========================================
--- 3. Data Jobs Only (your filtered dataset)
+-- 3. Data Jobs Only
 -- =========================================
 SELECT *
 FROM jobs
@@ -51,7 +51,7 @@ ORDER BY total_jobs DESC;
 
 
 -- =========================================
--- 5. Monthly Trend (if dates valid)
+-- 5. Monthly Trend 
 -- =========================================
 SELECT 
     SUBSTRING(date_posted, 1, 7) AS month,
