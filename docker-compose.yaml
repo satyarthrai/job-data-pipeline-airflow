@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  airflow:
+    image: apache/airflow:2.8.1
+    container_name: airflow-container
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    depends_on:
+      - mysql
+    command: airflow standalone
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: airflow_db
+    ports:
+      - "3307:3306"

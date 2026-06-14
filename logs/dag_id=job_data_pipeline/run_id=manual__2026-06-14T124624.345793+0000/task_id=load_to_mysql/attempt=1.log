@@ -1,0 +1,39 @@
+[2026-06-14T12:46:50.721+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: job_data_pipeline.load_to_mysql manual__2026-06-14T12:46:24.345793+00:00 [queued]>
+[2026-06-14T12:46:50.730+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: job_data_pipeline.load_to_mysql manual__2026-06-14T12:46:24.345793+00:00 [queued]>
+[2026-06-14T12:46:50.732+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2026-06-14T12:46:50.751+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_to_mysql> on 2026-06-14 12:46:24.345793+00:00
+[2026-06-14T12:46:50.774+0000] {standard_task_runner.py:60} INFO - Started process 331 to run task
+[2026-06-14T12:46:50.777+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'job_data_pipeline', 'load_to_mysql', 'manual__2026-06-14T12:46:24.345793+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/job_data_pipeline.py', '--cfg-path', '/tmp/tmps4835kta']
+[2026-06-14T12:46:50.782+0000] {standard_task_runner.py:88} INFO - Job 16: Subtask load_to_mysql
+[2026-06-14T12:46:50.866+0000] {task_command.py:423} INFO - Running <TaskInstance: job_data_pipeline.load_to_mysql manual__2026-06-14T12:46:24.345793+00:00 [running]> on host c78111d60b95
+[2026-06-14T12:46:50.946+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='job_data_pipeline' AIRFLOW_CTX_TASK_ID='load_to_mysql' AIRFLOW_CTX_EXECUTION_DATE='2026-06-14T12:46:24.345793+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-14T12:46:24.345793+00:00'
+[2026-06-14T12:46:51.000+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/mysql/connector/connection_cext.py", line 246, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Can't connect to MySQL server on '127.0.0.1:3306' (111)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/job_data_pipeline.py", line 63, in load_to_mysql
+    conn = mysql.connector.connect(
+  File "/home/airflow/.local/lib/python3.8/site-packages/mysql/connector/__init__.py", line 272, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/mysql/connector/connection_cext.py", line 94, in __init__
+    self.connect(**kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/mysql/connector/abstracts.py", line 1052, in connect
+    self._open_connection()
+  File "/home/airflow/.local/lib/python3.8/site-packages/mysql/connector/connection_cext.py", line 251, in _open_connection
+    raise errors.get_mysql_exception(msg=exc.msg, errno=exc.errno,
+mysql.connector.errors.DatabaseError: 2003 (HY000): Can't connect to MySQL server on '127.0.0.1:3306' (111)
+[2026-06-14T12:46:51.018+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=job_data_pipeline, task_id=load_to_mysql, execution_date=20260614T124624, start_date=20260614T124650, end_date=20260614T124651
+[2026-06-14T12:46:51.034+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 16 for task load_to_mysql (2003 (HY000): Can't connect to MySQL server on '127.0.0.1:3306' (111); 331)
+[2026-06-14T12:46:51.079+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-06-14T12:46:51.097+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
