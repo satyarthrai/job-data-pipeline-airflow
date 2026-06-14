@@ -1,110 +1,72 @@
-📊Data & AI Field Job Finder & Analytics Pipeline
+📊 Data & AI Field Job Finder & Analytics Pipeline
 
-(Python + Airflow + MySQL + PowerBI + Docker)
+#Project Overview
 
---->  Overview
+This project is an end-to-end data engineering and analytics pipeline that collects job postings from multiple APIs, filters only Data & AI related roles, stores structured data in a database, and prepares it for dashboard-based insights.
 
-This project is an end-to-end data engineering + analytics system that collects job postings from multiple APIs, filters only DATA & AI RELATED JOBS , stores them in a database, and prepares the data for dashboard visualization and insights.
+The system demonstrates a complete data workflow:
 
-It demonstrates a complete workflow:
+Data Extraction → Transformation → Storage → Analytics → Dashboarding → Automation (Airflow)
 
-Data Extraction → Transformation → Storage → Analytics → Dashboarding->Automation
+#Business Problem
 
----> Problem Statement
+Job boards contain thousands of listings across multiple domains, making it difficult for students and professionals to find relevant Data Science, Data Analytics, Data Engineering, and AI roles.
 
-Job platforms contain thousands of listings, but users interested in Data Science, Data Analytics, and Data Engineering roles struggle to filter relevant opportunities.
+This pipeline solves the problem by:
 
-This system solves that by:
+Aggregating job data from multiple APIs
+Filtering only Data & AI related roles
+Structuring and cleaning job data
+Storing data for analysis
+Automating the process using Apache Airflow
 
-Aggregating job data from multiple sources
-Filtering only Data-related jobs
-Structuring and storing clean datasets
-Preparing data for analytics dashboards
-Automating everything using Airflow
+#Tools Used
 
-:: System Architecture
-           ┌────────────────────┐
-           │   RemoteOK API     │
-           └────────────────────┘
-                     │
-           ┌────────────────────┐
-           │   Arbeitnow API    │
-           └────────────────────┘
-                     │
-           ┌────────────────────┐
-           │  Himalayas API     │
-           └────────────────────┘
-                     │
-                     ▼
-        ┌──────────────────────────┐
-        │   AIRFLOW ORCHESTRATION  │
-        │                          │
-        │  1. Extract Jobs         │
-        │  2. Filter Data Roles    │
-        │  3. Transform Dataset    │
-        │  4. Load to MySQL        │
-        │  5. Save JSON Backup     │
-        └──────────────────────────┘
-                     │
-                     ▼
-        ┌──────────────────────────┐
-        │      MYSQL DATABASE      │
-        └──────────────────────────┘
-                     │
-                     ▼
-        ┌──────────────────────────┐
-        │   ANALYTICS DASHBOARD    │
-        │ (Power BI / Tableau)     │
-        └──────────────────────────┘
+🐍 Python
+API Integration (Requests)
+Data Cleaning & Filtering
+ETL Logic Implementation
 
---->Tech Stack
+🌬 Apache Airflow
+Workflow Orchestration
+DAG Scheduling
+Task Automation
 
-Apache Airflow → Workflow orchestration
-Docker → Containerized environment
-MySQL → Structured data storage
-Python → ETL logic
-Requests → API calls
-Power BI / Tableau → Dashboard & insights
-JSON → Backup layer
+🐬 MySQL
+Structured Data Storage
+Query-Based Analysis
 
-📂 Project Structure
+🐳 Docker
+Containerized Airflow Environment
 
-project-root/
-│
-├── data/
-│   ├── raw/                    # Raw API data
-│   └── processed/              # Cleaned & filtered datasets
-│
-├── dags/                       # Airflow DAGs
-│   └── job_data_pipeline.py
-│
-├── src/                        
-│
-├── sql/                       # SQL scripts
-│   ├── schema.sql
-│   └── queries.sql
-│
-├── logs/                      # Airflow logs
-│
-├── main.py                    
-│
-├── powerbi_dashboard_img/     # Dashboard screenshots
-│
-├── docker-compose.yml
-└── README.md
+📊 Power BI
+Dashboard Creation
+Business Insights & Visualization
 
-# Pipeline Workflow
-1. Extract (Data Collection)
+Data Sources Used
 
-Data is pulled from multiple job APIs:
+RemoteOK API
+Remote job listings
+
+Arbeitnow API
+Global job postings
+
+Himalayas API
+Tech-focused job listings
+
+Each API provides unstructured job data which is standardized in the pipeline.
+
+#Data Engineering Process
+1. Data Extraction
+
+Data is pulled from multiple APIs:
 
 RemoteOK
 Arbeitnow
 Himalayas
+2. Data Transformation
 
-2. Transform (Filtering Logic)
-
-Only relevant Data domain jobs are kept:
+Only relevant Data & AI jobs are filtered using keywords:
 
 data analyst
 data engineer
@@ -113,57 +75,91 @@ machine learning engineer
 business intelligence
 analytics roles
 
-Irrelevant jobs are removed.
+Irrelevant job postings are removed.
 
-3. Load (Storage Layer)
+3. Data Storage
 
-Cleaned data is stored in:
+Processed data is stored in:
 
-MySQL database (structured tables)
-Backup JSON file (raw snapshot)
+MySQL database (structured storage)
+JSON backup file (raw snapshot layer)
+4. Workflow Automation (Airflow)
 
-4. Analytics Layer
+The entire pipeline is automated using an Airflow DAG:
 
-Stored data is used to build dashboards such as:
+Extract data from APIs
+Transform & filter jobs
+Load into database
+Save backup dataset
+Database Design
+Table: job_data
 
-📊 Total Data Jobs Available
-🏢 Top Hiring Companies
-📍 Location distribution
-📈 Trend of job postings
-📊 Dashboard Preview 
+Key Fields:
 
-build dashboards using:
-Power BI
+job_title
+company
+location
+job_type
+source
+apply_link
+description
 
-❗ Challenges Faced
 
-Docker port conflicts (MySQL 3306 issue)
-Airflow authentication setup confusion
-Multi-container networking (service naming)
-Handling inconsistent API responses
-DAG task failures due to data schema mismatch
+Airflow DAG Structure
 
-🧠 Key Learnings
+DAG: job_data_pipeline
+Tasks:
+run_pipeline → Executes full ETL pipeline
 
-End-to-end ETL pipeline design
-Airflow DAG orchestration
-Docker-based infrastructure setup
-API data ingestion at scale
-Data filtering & transformation logic
-Preparing data for analytics dashboards
+Workflow:
 
-🚀 Future Improvements
+Extract → Transform → Load → Backup
+
+Power BI Dashboard
+
+: Job Market Overview
+Total Data & AI Jobs Available
+Source-wise Job Distribution
+Job Type Breakdown
+
+: Demand Analysis
+Top Hiring Companies
+Location-wise Job Distribution
+Remote vs Onsite Trends
+
+#Project Structure
+
+project-root/
+
+├── data/
+│   ├── raw/                 # Raw API data
+│   └── processed/           # Cleaned dataset
+│
+├── dags/
+│   └── job_data_pipeline.py
+│
+├── src/                     # ETL Logic
+│
+├── sql/
+│
+├── logs/                    # Airflow logs
+│
+├── main.py                  # Local pipeline runner (optional)
+│
+├── powerbi_dashboard_img/   # Dashboard screenshots
+│
+├── docker-compose.yml
+└── README.md
+
+Future Improvements
+
 Add PostgreSQL / Data Warehouse layer
+Modularize ETL using src/ structure
 Add dbt transformations
-Deploy on cloud (AWS / GCP)
-Add real-time streaming (Kafka)
-Automate dashboard refresh
-Add job recommendation system
+Deploy pipeline on cloud (AWS / GCP)
+Add real-time ingestion (Kafka)
+Build job recommendation engine
 
-👨‍💻 Author
-Satyarth Rai
-B.Tech Student | Data Analytics & Engineering Enthusiast
+Key Outcome
 
-
-If you like this project
-Give a ⭐ on GitHub and explore improvements!
+This project delivers a fully automated data pipeline that collects and processes real-time job postings and transforms them into structured, analytics-ready datasets for career insights in the Data & AI domain.
